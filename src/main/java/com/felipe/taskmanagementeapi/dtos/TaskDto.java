@@ -13,6 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class TaskDto {
 
+    private Integer id;
+
+    private LocalDateTime creationDate;
+
     @NotNull(message = "Finalization date cannot be empty!")
     private LocalDateTime finalizationDate;
 
@@ -24,11 +28,6 @@ public class TaskDto {
 
     @NotNull(message = "Inform the team id in which this employee is working")
     private Integer teamId;
-
-    // Fields that cannot be filled by GET requests
-    private Integer id;
-
-    private LocalDateTime creationDate;
 
     private Boolean done;
 }
