@@ -5,10 +5,15 @@ import com.felipe.taskmanagementeapi.Repositories.TeamRepository;
 import com.felipe.taskmanagementeapi.entities.TaskEntity;
 import com.felipe.taskmanagementeapi.entities.TeamEntity;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 public class TaskRepositoryTest {
@@ -30,10 +35,11 @@ public class TaskRepositoryTest {
     private TeamRepository teamRepository;
 
     private TaskEntity taskEntity;
+    private TeamEntity teamEntity;
 
     @BeforeEach
     void setup() {
-        TeamEntity teamEntity = new TeamEntity();
+        teamEntity = new TeamEntity();
         teamEntity.setName("Nome do time_teste");
         teamRepository.save(teamEntity);
 
@@ -43,5 +49,24 @@ public class TaskRepositoryTest {
         taskEntity.setDone(DONE_TASK1);
         taskEntity.setFinalizationDate(FINALIZATION_DATE_TASK1);
         taskEntity.setTeam(teamEntity);
+    }
+
+    @DisplayName("Unit test for save method")
+    @Test
+    public void givenTaskEntity_whenSave_thenSavedTask(){
+        // given
+        // code in setup method
+
+        // when
+        TaskEntity savedTask = taskRepository.save(taskEntity);
+
+        // then
+        assertNotNull(savedTask.getCreationDate());
+        assertNotNull(savedTask.getId());
+        assertEquals(TITLE_TASK1, savedTask.getTitle());
+        assertEquals(DESCRIPTION_TASK1, savedTask.getDescription());
+        assertEquals(DONE_TASK1, savedTask.getDone());
+        assertEquals(FINALIZATION_DATE_TASK1, savedTask.getFinalizationDate());
+        assertEquals(teamEntity, savedTask.getTeam());
     }
 }
