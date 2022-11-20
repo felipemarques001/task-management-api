@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,5 +33,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         BeanUtils.copyProperties(savedEmployee, employeeDto);
         return employeeDto;
+    }
+
+    @Override
+    public EmployeeDto findEmployeeById(Integer id) {
+        Optional<EmployeeEntity> savedEmployee = employeeRepository.findById(id);
+        EmployeeDto savedEmployeeDto = new EmployeeDto();
+        BeanUtils.copyProperties(savedEmployee.get(), savedEmployeeDto);
+        return savedEmployeeDto;
+    }
+
+    @Override
+    public List<EmployeeDto> findAllEmployees() {
+        List<EmployeeEntity> employeeEntityList = employeeRepository.findAll();
+        List<EmployeeDto> employeeDtoList = employeeEntityList.stream().map(EmployeeDto::new).toList();
+        return employeeDtoList;
     }
 }
