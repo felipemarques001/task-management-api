@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -91,5 +92,23 @@ public class TeamRepositoryTest {
         assertEquals(NAME_TEAM, optionalTeam.get().getName());
         assertEquals(0, optionalTeam.get().getEmployees().size());
         assertEquals(0, optionalTeam.get().getTasks().size());
+    }
+
+    @DisplayName("Unit test for flow to update a TeamEntity")
+    @Test
+    public void givenNewTeam_whenUpdate_thenReturnUpdatedTeam() {
+        // given
+        teamRepository.save(teamEntity);
+        teamEntity.setName(NAME_TEAM2);
+
+        // when
+        TeamEntity savedNewTeam = teamRepository.save(teamEntity);
+
+        // then
+        assertNotNull(savedNewTeam.getId());
+        assertEquals(teamEntity.getId(), savedNewTeam.getId());
+        assertEquals(NAME_TEAM2, savedNewTeam.getName());
+        assertEquals(0, savedNewTeam.getEmployees().size());
+        assertEquals(0, savedNewTeam.getTasks().size());
     }
 }
