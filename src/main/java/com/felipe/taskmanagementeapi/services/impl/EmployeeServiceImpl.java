@@ -5,6 +5,7 @@ import com.felipe.taskmanagementeapi.Repositories.TeamRepository;
 import com.felipe.taskmanagementeapi.dtos.EmployeeDto;
 import com.felipe.taskmanagementeapi.entities.EmployeeEntity;
 import com.felipe.taskmanagementeapi.entities.TeamEntity;
+import com.felipe.taskmanagementeapi.exceptions.ResourceNotFoundException;
 import com.felipe.taskmanagementeapi.services.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
+        Optional<TeamEntity> optionalTeam = teamRepository.findById(employeeDto.getTeamId());
+        if(optionalTeam.isEmpty()) {
+            throw new ResourceNotFoundException("Team", "id", employeeDto.getTeamId());
+        }
+
         EmployeeEntity employeeEntity = new EmployeeEntity();
         BeanUtils.copyProperties(employeeDto, employeeEntity);
-
-        Optional<TeamEntity> teamEntityOptional = teamRepository.findById(employeeDto.getTeamId());
-        employeeEntity.setTeam(teamEntityOptional.get());
+        employeeEntity.setTeam(optionalTeam.get());
         EmployeeEntity savedEmployee = employeeRepository.save(employeeEntity);
 
         BeanUtils.copyProperties(savedEmployee, employeeDto);
@@ -38,6 +42,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto findEmployeeById(Integer id) {
         Optional<EmployeeEntity> savedEmployee = employeeRepository.findById(id);
+        if(savedEmployee.isEmpty()) {
+            throw new ResourceNotFoundException("Employee", "id", id);
+        }
         EmployeeDto savedEmployeeDto = new EmployeeDto();
         BeanUtils.copyProperties(savedEmployee.get(), savedEmployeeDto);
         return savedEmployeeDto;
@@ -53,6 +60,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto updateEmployee(EmployeeDto employeeDto, Integer id) {
         Optional<EmployeeEntity> savedEmployee = employeeRepository.findById(id);
+        if(savedEmployee.isEmpty()) {
+            throw new ResourceNotFoundException("Employee", "id", id);
+        }
         savedEmployee.get().setFirstName(employeeDto.getFirstName());
         savedEmployee.get().setLastName(employeeDto.getLastName());
         savedEmployee.get().setRole(employeeDto.getRole());
@@ -65,6 +75,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public String deleteEmployeeById(Integer id) {
         Optional<EmployeeEntity> savedEmployee = employeeRepository.findById(id);
+        if(savedEmployee.isEmpty()) {
+            throw new ResourceNotFoundException("Employee", "id", id);
+        }
         employeeRepository.deleteById(id);
         return "Employee successfully deleted!";
     }
