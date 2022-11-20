@@ -33,10 +33,16 @@ public class TaskController {
         List<TaskDto> savedTaskDtoList = taskService.findAllTasks();
         return ResponseEntity.status(HttpStatus.OK).body(savedTaskDtoList);
     }
-    
+
     @PutMapping(value = "/{id}")
     public ResponseEntity<TaskDto> updateTask(@RequestBody TaskDto taskDto, @PathVariable Integer id) {
         TaskDto updatedTaskDto = taskService.updateTask(taskDto, id);
         return ResponseEntity.status(HttpStatus.OK).body(taskDto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> deleteTaskById(@PathVariable Integer id) {
+        String responseService = taskService.deleteTaskById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(responseService);
     }
 }

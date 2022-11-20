@@ -13,4 +13,6 @@ public interface TaskService {
     List<TaskDto> findAllTasks();
 
     TaskDto updateTask(TaskDto taskDto, Integer id);
+
+    String deleteTaskById(Integer id);
 }

@@ -65,4 +65,11 @@ public class TaskServiceImpl implements TaskService {
         BeanUtils.copyProperties(savedTask, taskDto);
         return taskDto;
     }
+
+    @Override
+    public String deleteTaskById(Integer id) {
+        Optional<TaskEntity> savedTaskOptional = taskRepository.findById(id);
+        taskRepository.deleteById(id);
+        return "Task successfully deleted!";
+    }
 }
