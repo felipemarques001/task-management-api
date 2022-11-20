@@ -49,4 +49,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeeDto> employeeDtoList = employeeEntityList.stream().map(EmployeeDto::new).toList();
         return employeeDtoList;
     }
+
+    @Override
+    public EmployeeDto updateEmployee(EmployeeDto employeeDto, Integer id) {
+        Optional<EmployeeEntity> savedEmployee = employeeRepository.findById(id);
+        savedEmployee.get().setFirstName(employeeDto.getFirstName());
+        savedEmployee.get().setLastName(employeeDto.getLastName());
+        savedEmployee.get().setRole(employeeDto.getRole());
+
+        employeeRepository.save(savedEmployee.get());
+        BeanUtils.copyProperties(savedEmployee.get(), employeeDto);
+        return employeeDto;
+    }
 }

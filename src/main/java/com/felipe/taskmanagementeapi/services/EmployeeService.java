@@ -10,4 +10,6 @@ public interface EmployeeService {
     EmployeeDto findEmployeeById(Integer id);
 
     List<EmployeeDto> findAllEmployees();
+
+    EmployeeDto updateEmployee(EmployeeDto employeeDto, Integer id);
 }

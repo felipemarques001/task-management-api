@@ -33,4 +33,10 @@ public class EmployeeController {
         List<EmployeeDto> savedEmployeeDtoList = employeeService.findAllEmployees();
         return ResponseEntity.status(HttpStatus.OK).body(savedEmployeeDtoList);
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<EmployeeDto> updateEmployee(@RequestBody EmployeeDto employeeDto, @PathVariable Integer id) {
+        EmployeeDto updatedEmployeeDto = employeeService.updateEmployee(employeeDto, id);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedEmployeeDto);
+    }
 }
