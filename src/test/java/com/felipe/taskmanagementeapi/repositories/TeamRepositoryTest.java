@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,5 +48,29 @@ public class TeamRepositoryTest {
         assertEquals(0, savedTeam.getTasks().size());
     }
 
+    @DisplayName("Unit test for findAll method")
+    @Test
+    public void givenTeamList_whenFindAll_thenReturnSavedTeamList() {
+        // given
+        TeamEntity teamEntity2 = new TeamEntity();
+        teamEntity2.setName(NAME_TEAM2);
+        teamEntity2.setEmployees(new HashSet<>());
+        teamEntity2.setTasks(new HashSet<>());
 
+        teamRepository.saveAll(List.of(teamEntity, teamEntity2));
+
+        // when
+        List<TeamEntity> list = teamRepository.findAll();
+
+        // then
+        assertNotNull(list.get(0).getId());
+        assertEquals(NAME_TEAM, list.get(0).getName());
+        assertEquals(0, list.get(0).getEmployees().size());
+        assertEquals(0, list.get(0).getTasks().size());
+
+        assertNotNull(list.get(1).getId());
+        assertEquals(NAME_TEAM2, list.get(1).getName());
+        assertEquals(0, list.get(1).getEmployees().size());
+        assertEquals(0, list.get(1).getTasks().size());
+    }
 }
