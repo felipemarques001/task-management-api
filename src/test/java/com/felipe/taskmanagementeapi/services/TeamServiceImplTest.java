@@ -111,4 +111,41 @@ public class TeamServiceImplTest {
         assertEquals(0, response.get(0).getEmployees().size());
         assertEquals(0, response.get(0).getTasks().size());
     }
+
+    @DisplayName("Unit test for updateNameTeam method - case success")
+    @Test
+    void givenNewNameTeam_whenUpdateNameTeam_thenReturnUpdatedTeam() {
+        // given
+        TeamDto newTeamDto = new TeamDto();
+        newTeamDto.setName(NAME_TEAM2);
+        Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(savedTeamEntity));
+        // As this save return is not being stored in the updateNameTeam method, it is okay to let Mockito return the same savedTeamEntity field.
+        Mockito.when(teamRepository.save(Mockito.any(TeamEntity.class))).thenReturn(savedTeamEntity);
+
+        // when
+        TeamDto response = teamService.updateTeamName(newTeamDto, ID_TEAM);
+
+        // then
+        assertEquals(ID_TEAM, response.getId());
+        assertEquals(NAME_TEAM2, response.getName());
+        assertEquals(0, response.getEmployees().size());
+        assertEquals(0, response.getTasks().size());
+    }
+
+    @DisplayName("Unit test for updateNameTeam method - fail case")
+    @Test
+    void givenInvalidId_whenUpdateNameTeam_thenThrowsResourceNotFoundException() {
+        // given
+        TeamDto newTeamDto = new TeamDto();
+        newTeamDto.setName(NAME_TEAM2);
+        Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+
+        try {
+            TeamDto response = teamService.updateTeamName(newTeamDto, ID_TEAM);
+        } catch (Exception ex) {
+            // then
+            assertEquals(ResourceNotFoundException.class, ex.getClass());
+            assertEquals("Team not found with id : 1", ex.getMessage());
+        }
+    }
 }
