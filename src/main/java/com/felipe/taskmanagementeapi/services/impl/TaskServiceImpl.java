@@ -5,6 +5,7 @@ import com.felipe.taskmanagementeapi.Repositories.TeamRepository;
 import com.felipe.taskmanagementeapi.dtos.TaskDto;
 import com.felipe.taskmanagementeapi.entities.TaskEntity;
 import com.felipe.taskmanagementeapi.entities.TeamEntity;
+import com.felipe.taskmanagementeapi.exceptions.ResourceNotFoundException;
 import com.felipe.taskmanagementeapi.services.TaskService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDto createTask(TaskDto taskDto) {
         Optional<TeamEntity> optionalTeam = teamRepository.findById(taskDto.getTeamId());
+        if(optionalTeam.isEmpty()) {
+            throw new ResourceNotFoundException("Team", "id", taskDto.getTeamId());
+        }
+
         TaskEntity taskEntity = new TaskEntity();
         BeanUtils.copyProperties(taskDto, taskEntity);
-
         taskEntity.setTeam(optionalTeam.get());
         taskEntity.setDone(false);
 
@@ -38,9 +42,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDto findTaskById(Integer id) {
-        Optional<TaskEntity> savedTask = taskRepository.findById(id);
+        Optional<TaskEntity> savedTaskOptional = taskRepository.findById(id);
+        if(savedTaskOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Task", "id", id);
+        }
         TaskDto taskDto = new TaskDto();
-        BeanUtils.copyProperties(savedTask.get(), taskDto);
+        BeanUtils.copyProperties(savedTaskOptional.get(), taskDto);
         return taskDto;
     }
 
@@ -54,8 +61,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDto updateTask(TaskDto taskDto, Integer id) {
         Optional<TaskEntity> savedTaskOptional = taskRepository.findById(id);
+        if(savedTaskOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Task", "id", id);
+        }
         TaskEntity savedTask = savedTaskOptional.get();
-
         savedTask.setTitle(taskDto.getTitle());
         savedTask.setDone(taskDto.getDone());
         savedTask.setDescription(taskDto.getDescription());
@@ -69,6 +78,9 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public String deleteTaskById(Integer id) {
         Optional<TaskEntity> savedTaskOptional = taskRepository.findById(id);
+        if(savedTaskOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Task", "id", id);
+        }
         taskRepository.deleteById(id);
         return "Task successfully deleted!";
     }
