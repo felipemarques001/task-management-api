@@ -128,4 +128,30 @@ public class TaskRepositoryTest {
         assertEquals(FINALIZATION_DATE_TASK1, optionalTask.get().getFinalizationDate());
         assertEquals(teamEntity, optionalTask.get().getTeam());
     }
+
+    @DisplayName("Unit test for flow to update a TaskEntity")
+    @Test
+    public void givenNewTask_whenUpdate_thenUpdatedTask() {
+        // given
+        taskRepository.save(taskEntity);
+        TaskEntity savedTask = taskRepository.findById(taskEntity.getId()).get();
+        savedTask.setTitle(TITLE_TASK2);
+        savedTask.setDescription(DESCRIPTION_TASK2);
+        savedTask.setDone(DONE_TASK2);
+        savedTask.setFinalizationDate(FINALIZATION_DATE_TASK2);
+
+        // when
+        TaskEntity updatedTask = taskRepository.save(savedTask);
+
+
+        // given
+        assertNotNull(updatedTask);
+        assertNotNull(updatedTask.getId());
+        assertNotNull(updatedTask.getCreationDate());
+        assertEquals(TITLE_TASK2, updatedTask.getTitle());
+        assertEquals(DESCRIPTION_TASK2, updatedTask.getDescription());
+        assertEquals(DONE_TASK2, updatedTask.getDone());
+        assertEquals(FINALIZATION_DATE_TASK2, updatedTask.getFinalizationDate());
+        assertEquals(teamEntity, updatedTask.getTeam());
+    }
 }
