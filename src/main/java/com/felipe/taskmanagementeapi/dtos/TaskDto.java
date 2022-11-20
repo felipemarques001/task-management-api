@@ -1,5 +1,7 @@
 package com.felipe.taskmanagementeapi.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.felipe.taskmanagementeapi.entities.TaskEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,8 +28,18 @@ public class TaskDto {
     @NotBlank(message = "Description cannot be empty!")
     private String description;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "Inform the team id in which this employee is working")
     private Integer teamId;
 
     private Boolean done;
+
+    public TaskDto(TaskEntity taskEntity) {
+        id = taskEntity.getId();
+        creationDate = taskEntity.getCreationDate();
+        finalizationDate = taskEntity.getFinalizationDate();
+        title = taskEntity.getTitle();
+        description = taskEntity.getDescription();
+        done = taskEntity.getDone();
+    }
 }

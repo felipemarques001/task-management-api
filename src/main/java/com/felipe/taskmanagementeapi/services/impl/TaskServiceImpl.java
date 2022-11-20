@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,4 +35,21 @@ public class TaskServiceImpl implements TaskService {
         BeanUtils.copyProperties(taskEntity, taskDto);
         return taskDto;
     }
+
+    @Override
+    public TaskDto findTaskById(Integer id) {
+        Optional<TaskEntity> savedTask = taskRepository.findById(id);
+        TaskDto taskDto = new TaskDto();
+        BeanUtils.copyProperties(savedTask.get(), taskDto);
+        return taskDto;
+    }
+
+    @Override
+    public List<TaskDto> findAllTasks() {
+        List<TaskEntity> taskEntityList = taskRepository.findAll();
+        List<TaskDto> taskDtoList = taskEntityList.stream().map(TaskDto::new).toList();
+        return taskDtoList;
+    }
+
+
 }
