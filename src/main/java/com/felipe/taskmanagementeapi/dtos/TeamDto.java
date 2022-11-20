@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -21,8 +22,8 @@ public class TeamDto {
     private String name;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Set<TaskEntity> tasks;
+    private Set<TaskEntity> tasks = new HashSet<>();
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Set<EmployeeEntity> employees;
+    private Set<EmployeeEntity> employees = new HashSet<>();
 }

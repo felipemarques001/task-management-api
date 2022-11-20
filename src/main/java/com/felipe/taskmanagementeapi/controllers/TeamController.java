@@ -21,4 +21,16 @@ public class TeamController {
         TeamDto savedTeamDto = teamService.createTeam(teamDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTeamDto);
     }
+
+    @GetMapping(value = "/{id}")
+    private ResponseEntity<TeamDto> getTeamById(@PathVariable Integer id) {
+        TeamDto foundedTeamDto = teamService.findTeamById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(foundedTeamDto);
+    }
+
+    @PutMapping(value = "/{id}")
+    private ResponseEntity<TeamDto> updateNameTeam(@RequestBody TeamDto teamDto, @PathVariable Integer id) {
+        TeamDto updatedTeamDto = teamService.updateTeamName(teamDto, id);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedTeamDto);
+    }
 }
