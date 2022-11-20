@@ -154,4 +154,18 @@ public class TaskRepositoryTest {
         assertEquals(FINALIZATION_DATE_TASK2, updatedTask.getFinalizationDate());
         assertEquals(teamEntity, updatedTask.getTeam());
     }
+
+    @DisplayName("Unit test for delete method")
+    @Test
+    public void givenTaskId_whenDelete_thenDeleteTask() {
+        // given
+        taskRepository.save(taskEntity);
+
+        // when
+        taskRepository.deleteById(taskEntity.getId());
+        Optional<TaskEntity> optionalTask = taskRepository.findById(taskEntity.getId());
+
+        // then
+        assertTrue(optionalTask.isEmpty());
+    }
 }
