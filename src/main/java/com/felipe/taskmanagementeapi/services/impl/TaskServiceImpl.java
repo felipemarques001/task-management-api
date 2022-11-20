@@ -51,5 +51,18 @@ public class TaskServiceImpl implements TaskService {
         return taskDtoList;
     }
 
+    @Override
+    public TaskDto updateTask(TaskDto taskDto, Integer id) {
+        Optional<TaskEntity> savedTaskOptional = taskRepository.findById(id);
+        TaskEntity savedTask = savedTaskOptional.get();
 
+        savedTask.setTitle(taskDto.getTitle());
+        savedTask.setDone(taskDto.getDone());
+        savedTask.setDescription(taskDto.getDescription());
+        savedTask.setFinalizationDate(taskDto.getFinalizationDate());
+        taskRepository.save(savedTask);
+
+        BeanUtils.copyProperties(savedTask, taskDto);
+        return taskDto;
+    }
 }

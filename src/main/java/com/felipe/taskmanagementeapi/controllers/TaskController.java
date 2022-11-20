@@ -33,4 +33,10 @@ public class TaskController {
         List<TaskDto> savedTaskDtoList = taskService.findAllTasks();
         return ResponseEntity.status(HttpStatus.OK).body(savedTaskDtoList);
     }
+    
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<TaskDto> updateTask(@RequestBody TaskDto taskDto, @PathVariable Integer id) {
+        TaskDto updatedTaskDto = taskService.updateTask(taskDto, id);
+        return ResponseEntity.status(HttpStatus.OK).body(taskDto);
+    }
 }
