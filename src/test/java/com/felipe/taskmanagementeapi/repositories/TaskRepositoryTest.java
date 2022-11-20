@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 public class TaskRepositoryTest {
 
-    private static final String TITLE_TASK1 = "Fazer a unha de Simone";
-    private static final String DESCRIPTION_TASK1 = "Unha vermelha cereja";
+    private static final String TITLE_TASK1 = "Nome da terefa teste 1";
+    private static final String DESCRIPTION_TASK1 = "Descrição da tarefa teste 1";
     private static final Boolean DONE_TASK1 = false;
     private static final LocalDateTime FINALIZATION_DATE_TASK1 = LocalDateTime.of(LocalDateTime.now().getYear(), 12, 12, 0, 0);
 
-    private static final String TITLE_TASK2 = "Fazer a matrícula na faculdade";
-    private static final String DESCRIPTION_TASK2 = "A matrícula é no SIGAA";
+    private static final String TITLE_TASK2 = "Nome da terefa teste 2";
+    private static final String DESCRIPTION_TASK2 = "Descrição da tarefa teste 2";
     private static final Boolean DONE_TASK2 = false;
     private static final LocalDateTime FINALIZATION_DATE_TASK2 = LocalDateTime.of(LocalDateTime.now().getYear(), 12, 12, 0, 0);
 
