@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TeamServiceImplTest {
 
@@ -142,6 +143,38 @@ public class TeamServiceImplTest {
 
         try {
             TeamDto response = teamService.updateTeamName(newTeamDto, ID_TEAM);
+        } catch (Exception ex) {
+            // then
+            assertEquals(ResourceNotFoundException.class, ex.getClass());
+            assertEquals("Team not found with id : 1", ex.getMessage());
+        }
+    }
+
+    @DisplayName("Unit test for deleteTeamById - success case")
+    @Test
+    void whenValidId_whenDeleteTeamById_thenDeleteWithSuccess() {
+        // given
+        Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(savedTeamEntity));
+        Mockito.doNothing().when(teamRepository).deleteById(Mockito.anyInt());
+
+        // when
+        String response = teamService.deleteTeamById(ID_TEAM);
+
+        // then
+        assertNotNull(response);
+        assertEquals("Team successfully deleted!", response);
+        Mockito.verify(teamRepository, Mockito.times(1)).deleteById(Mockito.anyInt());
+    }
+
+    @DisplayName("Unit test for deleteTeamById - fail case")
+    @Test
+    void whenInvalidId_whenDeleteTeamById_thenThrowsResourceNotFoundException() {
+        // given
+        Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+
+        // when
+        try {
+            String response = teamService.deleteTeamById(ID_TEAM);
         } catch (Exception ex) {
             // then
             assertEquals(ResourceNotFoundException.class, ex.getClass());
