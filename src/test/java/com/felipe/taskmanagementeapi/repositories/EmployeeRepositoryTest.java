@@ -1,6 +1,7 @@
 package com.felipe.taskmanagementeapi.repositories;
 
 import com.felipe.taskmanagementeapi.Repositories.EmployeeRepository;
+import com.felipe.taskmanagementeapi.Repositories.TeamRepository;
 import com.felipe.taskmanagementeapi.entities.EmployeeEntity;
 import com.felipe.taskmanagementeapi.entities.TeamEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,6 +31,9 @@ public class EmployeeRepositoryTest {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private TeamRepository teamRepository;
+
     private EmployeeEntity employeeEntity;
     private TeamEntity teamEntity;
 
@@ -35,6 +41,7 @@ public class EmployeeRepositoryTest {
     void setUp() {
         teamEntity = new TeamEntity();
         teamEntity.setName("Nome do time_teste");
+        teamRepository.save(teamEntity);
 
         employeeEntity = new EmployeeEntity();
         employeeEntity.setFirstName(FIRST_NAME_EMPLOYEE1);
@@ -58,5 +65,35 @@ public class EmployeeRepositoryTest {
         assertEquals(LAST_NAME_EMPLOYEE1, savedEmployee.getLastName());
         assertEquals(ROLE_EMPLOYEE1, savedEmployee.getRole());
         assertEquals(teamEntity, savedEmployee.getTeam());
+    }
+
+    @DisplayName("Unit test for findAll method")
+    @Test
+    public void givenSavedEmployees_whenFindAll_thenReturnEmployeeList() {
+        // given
+        EmployeeEntity employeeEntity2 = new EmployeeEntity();
+        employeeEntity2.setFirstName(FIRST_NAME_EMPLOYEE2);
+        employeeEntity2.setLastName(LAST_NAME_EMPLOYEE2);
+        employeeEntity2.setRole(ROLE_EMPLOYEE2);
+        employeeEntity2.setTeam(teamEntity);
+
+        employeeRepository.saveAll(List.of(employeeEntity, employeeEntity2));
+
+        // when
+        List<EmployeeEntity> list = employeeRepository.findAll();
+
+        // then
+        assertNotNull(list);
+        assertEquals(2, list.size());
+
+        assertEquals(FIRST_NAME_EMPLOYEE1, list.get(0).getFirstName());
+        assertEquals(LAST_NAME_EMPLOYEE1, list.get(0).getLastName());
+        assertEquals(ROLE_EMPLOYEE1, list.get(0).getRole());
+        assertEquals(teamEntity, list.get(0).getTeam());
+
+        assertEquals(FIRST_NAME_EMPLOYEE2, list.get(1).getFirstName());
+        assertEquals(LAST_NAME_EMPLOYEE2, list.get(1).getLastName());
+        assertEquals(ROLE_EMPLOYEE2, list.get(1).getRole());
+        assertEquals(teamEntity, list.get(1).getTeam());
     }
 }
