@@ -12,9 +12,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 public class TaskRepositoryTest {
@@ -106,5 +106,26 @@ public class TaskRepositoryTest {
         assertEquals(DONE_TASK2, list.get(1).getDone());
         assertEquals(FINALIZATION_DATE_TASK2, list.get(1).getFinalizationDate());
         assertEquals(teamEntity, list.get(1).getTeam());
+    }
+
+    @DisplayName("Unit test for findById method")
+    @Test
+    public void givenTaskId_whenFindById_thenReturnOptionalTask() {
+        // given
+        taskRepository.save(taskEntity);
+
+        // when
+        Optional<TaskEntity> optionalTask = taskRepository.findById(taskEntity.getId());
+
+        // given
+        assertNotNull(optionalTask);
+        assertFalse(optionalTask.isEmpty());
+        assertNotNull(optionalTask.get().getId());
+        assertNotNull(optionalTask.get().getCreationDate());
+        assertEquals(TITLE_TASK1, optionalTask.get().getTitle());
+        assertEquals(DESCRIPTION_TASK1, optionalTask.get().getDescription());
+        assertEquals(DONE_TASK1, optionalTask.get().getDone());
+        assertEquals(FINALIZATION_DATE_TASK1, optionalTask.get().getFinalizationDate());
+        assertEquals(teamEntity, optionalTask.get().getTeam());
     }
 }
