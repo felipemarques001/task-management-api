@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.BeanUtils;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -93,5 +94,21 @@ public class TeamServiceImplTest {
             assertEquals(ResourceNotFoundException.class, ex.getClass());
             assertEquals("Team not found with id : 1", ex.getMessage());
         }
+    }
+
+    @DisplayName("Unit test for findAllTeams method")
+    @Test
+    void givenTaskEntityList_whenFindAll_thenReturnTaskDtoList() {
+        // given
+        Mockito.when(teamRepository.findAll()).thenReturn(List.of(savedTeamEntity));
+
+        // when
+        List<TeamDto> response = teamService.findAllTeams();
+
+        // then
+        assertEquals(ID_TEAM, response.get(0).getId());
+        assertEquals(NAME_TEAM, response.get(0).getName());
+        assertEquals(0, response.get(0).getEmployees().size());
+        assertEquals(0, response.get(0).getTasks().size());
     }
 }
