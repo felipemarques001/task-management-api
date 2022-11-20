@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -72,5 +73,23 @@ public class TeamRepositoryTest {
         assertEquals(NAME_TEAM2, list.get(1).getName());
         assertEquals(0, list.get(1).getEmployees().size());
         assertEquals(0, list.get(1).getTasks().size());
+    }
+
+    @DisplayName("Unit test for findById method")
+    @Test
+    public void givenTeamId_whenFindById_thenReturnOptionalTeam() {
+        // given
+        teamRepository.save(teamEntity);
+
+        // when
+        Optional<TeamEntity> optionalTeam = teamRepository.findById(teamEntity.getId());
+
+        // then
+        assertNotNull(optionalTeam);
+        assertFalse(optionalTeam.isEmpty());
+        assertNotNull(optionalTeam.get().getId());
+        assertEquals(NAME_TEAM, optionalTeam.get().getName());
+        assertEquals(0, optionalTeam.get().getEmployees().size());
+        assertEquals(0, optionalTeam.get().getTasks().size());
     }
 }
