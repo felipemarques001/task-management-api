@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -95,5 +96,23 @@ public class EmployeeRepositoryTest {
         assertEquals(LAST_NAME_EMPLOYEE2, list.get(1).getLastName());
         assertEquals(ROLE_EMPLOYEE2, list.get(1).getRole());
         assertEquals(teamEntity, list.get(1).getTeam());
+    }
+
+    @DisplayName("Unit test for findById method")
+    @Test
+    public void givenEmployeeId_whenFindById_thenReturnOptionalEmployee() {
+        // given
+        employeeRepository.save(employeeEntity);
+
+        // when
+        Optional<EmployeeEntity> optionalEmployee = employeeRepository.findById(employeeEntity.getId());
+
+        // then
+        assertFalse(optionalEmployee.isEmpty());
+        assertNotNull(optionalEmployee.get().getId());
+        assertEquals(FIRST_NAME_EMPLOYEE1, optionalEmployee.get().getFirstName());
+        assertEquals(LAST_NAME_EMPLOYEE1, optionalEmployee.get().getLastName());
+        assertEquals(ROLE_EMPLOYEE1, optionalEmployee.get().getRole());
+        assertEquals(teamEntity, optionalEmployee.get().getTeam());
     }
 }
