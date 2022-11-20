@@ -111,4 +111,18 @@ public class TeamRepositoryTest {
         assertEquals(0, savedNewTeam.getEmployees().size());
         assertEquals(0, savedNewTeam.getTasks().size());
     }
+
+    @DisplayName("Unit test for deleteById method")
+    @Test
+    public void givenTeamId_whenDelete_thenDeleteTeam() {
+        // given
+        teamRepository.save(teamEntity);
+
+        // when
+        teamRepository.deleteById(teamEntity.getId());
+        Optional<TeamEntity> optionalTeam = teamRepository.findById(teamEntity.getId());
+
+        // then
+        assertTrue(optionalTeam.isEmpty());
+    }
 }
