@@ -1,5 +1,6 @@
 package com.felipe.taskmanagementeapi.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class EmployeeDto {
 
+    private Integer id;
+
     @NotBlank(message = "First name cannot be empty!")
     private String firstName;
 
@@ -21,9 +24,7 @@ public class EmployeeDto {
     @NotBlank(message = "Role cannot be empty!")
     private String role;
 
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     @NotNull(message = "Inform the team id in which this employee is working")
-    private Integer team_id;
-
-    // Field that cannot be filled by GET requests
-    private Integer id;
+    private Integer teamId;
 }

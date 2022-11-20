@@ -1,5 +1,7 @@
 package com.felipe.taskmanagementeapi.services;
 
-public interface EmployeeService {
+import com.felipe.taskmanagementeapi.dtos.EmployeeDto;
 
+public interface EmployeeService {
+    EmployeeDto createEmployee(EmployeeDto employeeDto);
 }
