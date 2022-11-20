@@ -3,6 +3,7 @@ package com.felipe.taskmanagementeapi.dtos;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.felipe.taskmanagementeapi.entities.EmployeeEntity;
 import com.felipe.taskmanagementeapi.entities.TaskEntity;
+import com.felipe.taskmanagementeapi.entities.TeamEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,4 +27,11 @@ public class TeamDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Set<EmployeeEntity> employees = new HashSet<>();
+
+    public TeamDto(TeamEntity teamEntity) {
+        id = teamEntity.getId();
+        name = teamEntity.getName();
+        tasks = teamEntity.getTasks();
+        employees = teamEntity.getEmployees();
+    }
 }

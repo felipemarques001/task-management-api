@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/team")
@@ -28,9 +29,21 @@ public class TeamController {
         return ResponseEntity.status(HttpStatus.OK).body(foundedTeamDto);
     }
 
+    @GetMapping
+    private ResponseEntity<List<TeamDto>> findAllTeams() {
+        List<TeamDto> teamDtoList = teamService.findAllTeams();
+        return ResponseEntity.status(HttpStatus.OK).body(teamDtoList);
+    }
+
     @PutMapping(value = "/{id}")
     private ResponseEntity<TeamDto> updateNameTeam(@RequestBody TeamDto teamDto, @PathVariable Integer id) {
         TeamDto updatedTeamDto = teamService.updateTeamName(teamDto, id);
         return ResponseEntity.status(HttpStatus.OK).body(updatedTeamDto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    private ResponseEntity<String> deleteTeamById(@PathVariable Integer id) {
+        String responseService = teamService.deleteTeamById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(responseService);
     }
 }
