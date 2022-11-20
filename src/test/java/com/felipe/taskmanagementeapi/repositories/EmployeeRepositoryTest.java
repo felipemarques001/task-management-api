@@ -115,4 +115,25 @@ public class EmployeeRepositoryTest {
         assertEquals(ROLE_EMPLOYEE1, optionalEmployee.get().getRole());
         assertEquals(teamEntity, optionalEmployee.get().getTeam());
     }
+
+    @DisplayName("Unit test for flow to update a EmployeeEntity")
+    @Test
+    public void givenNewEmployee_whenUpdate_thenReturnUpdatedEmployee() {
+        // given
+        employeeRepository.save(employeeEntity);
+        EmployeeEntity savedEmployee = employeeRepository.findById(employeeEntity.getId()).get();
+        savedEmployee.setFirstName(FIRST_NAME_EMPLOYEE2);
+        savedEmployee.setLastName(LAST_NAME_EMPLOYEE2);
+        savedEmployee.setRole(ROLE_EMPLOYEE2);
+
+        // when
+        EmployeeEntity updatedEmployee = employeeRepository.save(savedEmployee);
+
+        // then
+        assertNotNull(updatedEmployee);
+        assertEquals(FIRST_NAME_EMPLOYEE2, updatedEmployee.getFirstName());
+        assertEquals(LAST_NAME_EMPLOYEE2, updatedEmployee.getLastName());
+        assertEquals(ROLE_EMPLOYEE2, updatedEmployee.getRole());
+        assertEquals(teamEntity, updatedEmployee.getTeam());
+    }
 }
