@@ -61,4 +61,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         BeanUtils.copyProperties(savedEmployee.get(), employeeDto);
         return employeeDto;
     }
+
+    @Override
+    public String deleteEmployeeById(Integer id) {
+        Optional<EmployeeEntity> savedEmployee = employeeRepository.findById(id);
+        employeeRepository.deleteById(id);
+        return "Employee successfully deleted!";
+    }
 }
