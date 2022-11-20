@@ -21,12 +21,10 @@ public class EmployeeRepositoryTest {
     private static final String FIRST_NAME_EMPLOYEE1 = "Felipe";
     private static final String LAST_NAME_EMPLOYEE1 = "Marques";
     private static final String ROLE_EMPLOYEE1 = "Back-end developer";
-    private static final Integer TEAM_ID_EMPLOYEE1 = 1;
 
     private static final String FIRST_NAME_EMPLOYEE2 = "Vanessa";
     private static final String LAST_NAME_EMPLOYEE2 = "Dias";
     private static final String ROLE_EMPLOYEE2 = "Front-end developer";
-    private static final Integer TEAM_ID_EMPLOYEE2 = 2;
 
 
     @Autowired
@@ -135,5 +133,19 @@ public class EmployeeRepositoryTest {
         assertEquals(LAST_NAME_EMPLOYEE2, updatedEmployee.getLastName());
         assertEquals(ROLE_EMPLOYEE2, updatedEmployee.getRole());
         assertEquals(teamEntity, updatedEmployee.getTeam());
+    }
+
+    @DisplayName("Unit test for delete method")
+    @Test
+    public void givenEmployeeId_whenDelete_thenDeleteEmployee() {
+        // given
+        employeeRepository.save(employeeEntity);
+
+        // when
+        employeeRepository.deleteById(employeeEntity.getId());
+        Optional<EmployeeEntity> optionalEmployee = employeeRepository.findById(employeeEntity.getId());
+
+        // then
+        assertTrue(optionalEmployee.isEmpty());
     }
 }
