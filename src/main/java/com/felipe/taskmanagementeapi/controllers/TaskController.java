@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,7 @@ public class TaskController {
     private TaskServiceImpl taskService;
 
     @PostMapping
-    public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto) {
+    public ResponseEntity<TaskDto> createTask(@RequestBody @Valid TaskDto taskDto) {
         TaskDto savedTaskDto = taskService.createTask(taskDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(taskDto);
     }
@@ -35,7 +36,7 @@ public class TaskController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<TaskDto> updateTask(@RequestBody TaskDto taskDto, @PathVariable Integer id) {
+    public ResponseEntity<TaskDto> updateTask(@RequestBody @Valid TaskDto taskDto, @PathVariable Integer id) {
         TaskDto updatedTaskDto = taskService.updateTask(taskDto, id);
         return ResponseEntity.status(HttpStatus.OK).body(taskDto);
     }

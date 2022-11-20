@@ -36,7 +36,7 @@ public class TeamController {
     }
 
     @PutMapping(value = "/{id}")
-    private ResponseEntity<TeamDto> updateNameTeam(@RequestBody TeamDto teamDto, @PathVariable Integer id) {
+    private ResponseEntity<TeamDto> updateNameTeam(@RequestBody @Valid TeamDto teamDto, @PathVariable Integer id) {
         TeamDto updatedTeamDto = teamService.updateTeamName(teamDto, id);
         return ResponseEntity.status(HttpStatus.OK).body(updatedTeamDto);
     }

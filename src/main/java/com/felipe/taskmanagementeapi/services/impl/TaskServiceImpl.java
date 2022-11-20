@@ -66,9 +66,13 @@ public class TaskServiceImpl implements TaskService {
         }
         TaskEntity savedTask = savedTaskOptional.get();
         savedTask.setTitle(taskDto.getTitle());
-        savedTask.setDone(taskDto.getDone());
         savedTask.setDescription(taskDto.getDescription());
         savedTask.setFinalizationDate(taskDto.getFinalizationDate());
+        if(taskDto.getDone() == null) {
+            savedTask.setDone(false);
+        } else {
+            savedTask.setDone(taskDto.getDone());
+        }
         taskRepository.save(savedTask);
 
         BeanUtils.copyProperties(savedTask, taskDto);
