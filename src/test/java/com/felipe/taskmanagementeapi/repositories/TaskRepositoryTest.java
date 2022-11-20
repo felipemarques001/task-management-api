@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -68,5 +69,42 @@ public class TaskRepositoryTest {
         assertEquals(DONE_TASK1, savedTask.getDone());
         assertEquals(FINALIZATION_DATE_TASK1, savedTask.getFinalizationDate());
         assertEquals(teamEntity, savedTask.getTeam());
+    }
+
+    @DisplayName("Unit test for findAll method")
+    @Test
+    public void givenSavedTasks_whenFindAll_thenReturnTaskList() {
+        // given
+        TaskEntity taskEntity2 = new TaskEntity();
+        taskEntity2.setTitle(TITLE_TASK2);
+        taskEntity2.setDescription(DESCRIPTION_TASK2);
+        taskEntity2.setDone(DONE_TASK2);
+        taskEntity2.setFinalizationDate(FINALIZATION_DATE_TASK2);
+        taskEntity2.setTeam(teamEntity);
+
+        taskRepository.saveAll(List.of(taskEntity, taskEntity2));
+
+        // when
+        List<TaskEntity> list = taskRepository.findAll();
+
+        // then
+        assertNotNull(list);
+        assertEquals(2, list.size());
+
+        assertNotNull(list.get(0).getId());
+        assertNotNull(list.get(0).getCreationDate());
+        assertEquals(TITLE_TASK1, list.get(0).getTitle());
+        assertEquals(DESCRIPTION_TASK1, list.get(0).getDescription());
+        assertEquals(DONE_TASK1, list.get(0).getDone());
+        assertEquals(FINALIZATION_DATE_TASK1, list.get(0).getFinalizationDate());
+        assertEquals(teamEntity, list.get(0).getTeam());
+
+        assertNotNull(list.get(1).getId());
+        assertNotNull(list.get(1).getCreationDate());
+        assertEquals(TITLE_TASK2, list.get(1).getTitle());
+        assertEquals(DESCRIPTION_TASK2, list.get(1).getDescription());
+        assertEquals(DONE_TASK2, list.get(1).getDone());
+        assertEquals(FINALIZATION_DATE_TASK2, list.get(1).getFinalizationDate());
+        assertEquals(teamEntity, list.get(1).getTeam());
     }
 }
