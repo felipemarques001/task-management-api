@@ -5,6 +5,7 @@ import com.felipe.taskmanagementeapi.Repositories.TeamRepository;
 import com.felipe.taskmanagementeapi.dtos.TaskDto;
 import com.felipe.taskmanagementeapi.entities.TaskEntity;
 import com.felipe.taskmanagementeapi.entities.TeamEntity;
+import com.felipe.taskmanagementeapi.exceptions.ResourceNotFoundException;
 import com.felipe.taskmanagementeapi.services.impl.TaskServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -90,5 +91,39 @@ public class TaskServiceImplTest {
         assertEquals(FINALIZATION_DATE_TASK, response.getFinalizationDate());
         assertEquals(DONE_TASK, response.getDone());
         assertEquals(ID_TEAM, response.getTeamId());
+    }
+
+    @DisplayName("Unit test for findTaskById method - success case")
+    @Test
+    void givenValidId_whenFindTaskById_thenReturnSavedTask() {
+        // given
+        Mockito.when(taskRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(savedTask));
+
+        // when
+        TaskDto response = taskService.findTaskById(ID_TASK);
+
+        // then
+        assertEquals(ID_TASK, response.getId());
+        assertEquals(TITLE_TASK, response.getTitle());
+        assertEquals(DESCRIPTION_TASK, response.getDescription());
+        assertEquals(CREATION_DATE_TASK, response.getCreationDate());
+        assertEquals(FINALIZATION_DATE_TASK, response.getFinalizationDate());
+        assertEquals(DONE_TASK, response.getDone());
+    }
+
+    @DisplayName("Unit test for findTaskById method - fail case")
+    @Test
+    void givenInvalidId_whenFindTaskById_thenThrowsResourceNotFoundException() {
+        // given
+        Mockito.when(taskRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+
+        // when
+        try {
+            TaskDto response = taskService.findTaskById(ID_TASK);
+        } catch (Exception ex) {
+            // then
+            assertEquals(ResourceNotFoundException.class, ex.getClass());
+            assertEquals("Task not found with id : 1", ex.getMessage());
+        }
     }
 }
