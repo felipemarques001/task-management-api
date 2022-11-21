@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 public class TaskServiceImplTest {
@@ -186,6 +187,38 @@ public class TaskServiceImplTest {
         // when
         try {
             TaskDto response = taskService.updateTask(updatedTaskDto, ID_TASK);
+        } catch (Exception ex) {
+            // then
+            assertEquals(ResourceNotFoundException.class, ex.getClass());
+            assertEquals("Task not found with id : 1", ex.getMessage());
+        }
+    }
+
+    @DisplayName("Unit test for deleteTaskById - success case")
+    @Test
+    void whenValidId_whenDeleteTaskById_thenDeleteWithSuccess() {
+        // given
+        Mockito.when(taskRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(savedTask));
+        Mockito.doNothing().when(taskRepository).deleteById(Mockito.anyInt());
+
+        // when
+        String response = taskService.deleteTaskById(ID_TASK);
+
+        // then
+        assertNotNull(response);
+        assertEquals("Task successfully deleted!", response);
+        Mockito.verify(taskRepository, Mockito.times(1)).deleteById(Mockito.anyInt());
+    }
+
+    @DisplayName("Unit test for deleteTaskById - fail case")
+    @Test
+    void whenInvalidId_whenDeleteTaskById_thenThrowsResourceNotFoundException() {
+        // given
+        Mockito.when(taskRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+
+        // when
+        try {
+            String response = taskService.deleteTaskById(ID_TASK);
         } catch (Exception ex) {
             // then
             assertEquals(ResourceNotFoundException.class, ex.getClass());
