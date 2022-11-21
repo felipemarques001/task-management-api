@@ -18,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -125,5 +126,23 @@ public class TaskServiceImplTest {
             assertEquals(ResourceNotFoundException.class, ex.getClass());
             assertEquals("Task not found with id : 1", ex.getMessage());
         }
+    }
+
+    @DisplayName("Unit test for findAllTasks method")
+    @Test
+    void givenTaskEntityList_whenFindAll_thenReturnTaskDtoList() {
+        // given
+        Mockito.when(taskRepository.findAll()).thenReturn(List.of(savedTask));
+
+        // when
+        List<TaskDto> taskDtoList = taskService.findAllTasks();
+
+        // then
+        assertEquals(ID_TASK, taskDtoList.get(0).getId());
+        assertEquals(TITLE_TASK, taskDtoList.get(0).getTitle());
+        assertEquals(DESCRIPTION_TASK, taskDtoList.get(0).getDescription());
+        assertEquals(CREATION_DATE_TASK, taskDtoList.get(0).getCreationDate());
+        assertEquals(FINALIZATION_DATE_TASK, taskDtoList.get(0).getFinalizationDate());
+        assertEquals(DONE_TASK, taskDtoList.get(0).getDone());
     }
 }

@@ -101,7 +101,7 @@ public class TeamServiceImplTest {
 
     @DisplayName("Unit test for findAllTeams method")
     @Test
-    void givenTaskEntityList_whenFindAll_thenReturnTaskDtoList() {
+    void givenTeamEntityList_whenFindAll_thenReturnTeamDtoList() {
         // given
         Mockito.when(teamRepository.findAll()).thenReturn(List.of(savedTeamEntity));
 
