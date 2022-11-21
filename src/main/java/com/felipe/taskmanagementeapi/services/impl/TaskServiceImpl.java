@@ -35,8 +35,8 @@ public class TaskServiceImpl implements TaskService {
         taskEntity.setTeam(optionalTeam.get());
         taskEntity.setDone(false);
 
-        taskRepository.save(taskEntity);
-        BeanUtils.copyProperties(taskEntity, taskDto);
+        TaskEntity savedTask = taskRepository.save(taskEntity);
+        BeanUtils.copyProperties(savedTask, taskDto);
         return taskDto;
     }
 

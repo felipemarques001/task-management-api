@@ -7,13 +7,19 @@ import com.felipe.taskmanagementeapi.entities.TaskEntity;
 import com.felipe.taskmanagementeapi.entities.TeamEntity;
 import com.felipe.taskmanagementeapi.services.impl.TaskServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class TaskServiceImplTest {
@@ -59,6 +65,30 @@ public class TaskServiceImplTest {
         savedTask.setTeam(savedTeam);
 
         taskDto = new TaskDto();
-        BeanUtils.copyProperties(savedTask, taskDto);
+        taskDto.setFinalizationDate(FINALIZATION_DATE_TASK);
+        taskDto.setTitle(TITLE_TASK);
+        taskDto.setDescription(DESCRIPTION_TASK);
+        taskDto.setTeamId(ID_TEAM);
+    }
+
+    @DisplayName("Unit test for createTask method")
+    @Test
+    void givenTaskDto_whenCreateTask_thenReturnSavedTask() {
+        // given
+        Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(savedTeam));
+        // As this save return is not being stored in the createTask method, it is okay to let Mockito return the same savedTask field.
+        Mockito.when(taskRepository.save(Mockito.any(TaskEntity.class))).thenReturn(savedTask);
+
+        // when
+        TaskDto response = taskService.createTask(taskDto);
+
+        // then
+        assertEquals(ID_TASK, response.getId());
+        assertEquals(TITLE_TASK, response.getTitle());
+        assertEquals(DESCRIPTION_TASK, response.getDescription());
+        assertEquals(CREATION_DATE_TASK, response.getCreationDate());
+        assertEquals(FINALIZATION_DATE_TASK, response.getFinalizationDate());
+        assertEquals(DONE_TASK, response.getDone());
+        assertEquals(ID_TEAM, response.getTeamId());
     }
 }
