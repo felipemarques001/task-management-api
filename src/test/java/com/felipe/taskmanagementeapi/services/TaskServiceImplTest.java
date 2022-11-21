@@ -14,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
@@ -130,7 +129,7 @@ public class TaskServiceImplTest {
 
     @DisplayName("Unit test for findAllTasks method")
     @Test
-    void givenTaskEntityList_whenFindAll_thenReturnTaskDtoList() {
+    void givenTaskEntityList_whenFindAllTasks_thenReturnTaskDtoList() {
         // given
         Mockito.when(taskRepository.findAll()).thenReturn(List.of(savedTask));
 
@@ -144,5 +143,53 @@ public class TaskServiceImplTest {
         assertEquals(CREATION_DATE_TASK, taskDtoList.get(0).getCreationDate());
         assertEquals(FINALIZATION_DATE_TASK, taskDtoList.get(0).getFinalizationDate());
         assertEquals(DONE_TASK, taskDtoList.get(0).getDone());
+    }
+
+    @DisplayName("Unit test for updateTask method - case success")
+    @Test
+    void givenNewTaskDto_whenUpdateTask_thenReturnUpdatedTask() {
+        // given
+        String newTaskName= "Nome tarefa teste 2";
+        String newTaskDescription = "Nome tarefa teste 2";
+        LocalDateTime newTaskFinalizationDate = LocalDateTime.of(LocalDateTime.now().getYear() + 1, 12, 31, 0, 0);
+        Boolean newTaskDone = true;
+
+        TaskDto updatedTaskDto = new TaskDto();
+        updatedTaskDto.setFinalizationDate(newTaskFinalizationDate);
+        updatedTaskDto.setTitle(newTaskName);
+        updatedTaskDto.setDescription(newTaskDescription);
+        updatedTaskDto.setDone(newTaskDone);
+
+        Mockito.when(taskRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(savedTask));
+        Mockito.when(taskRepository.save(Mockito.any(TaskEntity.class))).thenReturn(savedTask);
+
+        // when
+        TaskDto response = taskService.updateTask(updatedTaskDto, ID_TASK);
+
+        // then
+        assertEquals(ID_TASK, response.getId());
+        assertEquals(newTaskName, response.getTitle());
+        assertEquals(newTaskDescription, response.getDescription());
+        assertEquals(CREATION_DATE_TASK, response.getCreationDate());
+        assertEquals(newTaskFinalizationDate, response.getFinalizationDate());
+        assertEquals(newTaskDone, response.getDone());
+    }
+
+    @DisplayName("Unit test for updateTask method - fail case")
+    @Test
+    void givenInvalidId_whenUpdateTask_thenThrowsResourceNotFoundException() {
+        // given
+        Mockito.when(taskRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+        // I will let updatedTaskDto without values in its attributes, because I won't use them
+        TaskDto updatedTaskDto = new TaskDto();
+
+        // when
+        try {
+            TaskDto response = taskService.updateTask(updatedTaskDto, ID_TASK);
+        } catch (Exception ex) {
+            // then
+            assertEquals(ResourceNotFoundException.class, ex.getClass());
+            assertEquals("Task not found with id : 1", ex.getMessage());
+        }
     }
 }
