@@ -24,7 +24,7 @@ public class TeamController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TeamDto> getTeamById(@PathVariable Integer id) {
+    public ResponseEntity<TeamDto> findTeamById(@PathVariable Integer id) {
         TeamDto foundedTeamDto = teamService.findTeamById(id);
         return ResponseEntity.status(HttpStatus.OK).body(foundedTeamDto);
     }
