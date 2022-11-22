@@ -94,6 +94,22 @@ public class TaskServiceImplTest {
         assertEquals(ID_TEAM, response.getTeamId());
     }
 
+    @DisplayName("Unit test for createTask method - fail case")
+    @Test
+    void givenInvalidTeamId_whenCreateTask_thenResourceNotFoundException() {
+        // given
+        Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+
+        // when
+        try {
+            TaskDto response = taskService.createTask(taskDto);
+        } catch (Exception ex) {
+            // then
+            assertEquals(ResourceNotFoundException.class, ex.getClass());
+            assertEquals("Team not found with id : 1", ex.getMessage());
+        }
+    }
+
     @DisplayName("Unit test for findTaskById method - success case")
     @Test
     void givenValidId_whenFindTaskById_thenReturnSavedTask() {
