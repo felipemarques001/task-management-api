@@ -89,7 +89,7 @@ public class EmployeeServiceImplTest {
 
     @DisplayName("Unit test for createEmployee method - fail case")
     @Test
-    void givenInvalidTeamId_whenCreateEmployee_thenResourceNotFoundException() {
+    void givenInvalidTeamId_whenCreateEmployee_thenThrowsResourceNotFoundException() {
         // given
         Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
 
@@ -103,5 +103,36 @@ public class EmployeeServiceImplTest {
         }
     }
 
+    @DisplayName("Unit test for findEmployeeById method - success case")
+    @Test
+    void givenValidId_whenFindEmployeeById_thenReturnSavedEmployee() {
+        // given
+        Mockito.when(employeeRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(savedEmployee));
 
+        // when
+        EmployeeDto response = employeeService.findEmployeeById(ID_EMPLOYEE);
+
+        // then
+        assertNotNull(response);
+        assertEquals(ID_EMPLOYEE, response.getId());
+        assertEquals(FIRST_NAME_EMPLOYEE, response.getFirstName());
+        assertEquals(LAST_NAME_EMPLOYEE, response.getLastName());
+        assertEquals(ROLE_EMPLOYEE, response.getRole());
+    }
+
+    @DisplayName("Unit test for findEmployeeById method - fail case")
+    @Test
+    void givenInvalidTeamId_whenFindEmployeeById_thenThrowsResourceNotFoundException() {
+        // given
+        Mockito.when(employeeRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+
+        // when
+        try {
+            EmployeeDto response = employeeService.findEmployeeById(ID_EMPLOYEE);
+        } catch (Exception ex) {
+            // then
+            assertEquals(ResourceNotFoundException.class, ex.getClass());
+            assertEquals("Employee not found with id : 1", ex.getMessage());
+        }
+    }
 }
