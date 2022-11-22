@@ -5,12 +5,22 @@ import com.felipe.taskmanagementeapi.Repositories.TeamRepository;
 import com.felipe.taskmanagementeapi.dtos.EmployeeDto;
 import com.felipe.taskmanagementeapi.entities.EmployeeEntity;
 import com.felipe.taskmanagementeapi.entities.TeamEntity;
+import com.felipe.taskmanagementeapi.exceptions.ResourceNotFoundException;
 import com.felipe.taskmanagementeapi.services.impl.EmployeeServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 public class EmployeeServiceImplTest {
@@ -56,5 +66,40 @@ public class EmployeeServiceImplTest {
         employeeDto.setLastName(LAST_NAME_EMPLOYEE);
         employeeDto.setRole(ROLE_EMPLOYEE);
         employeeDto.setTeamId(ID_TEAM);
+    }
+
+    @DisplayName("Unit test for createEmployee method - success case")
+    @Test
+    void givenEmployeeDto_whenCreateEmployee_thenReturnSavedEmployee() {
+        // given
+        Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(savedTeam));
+        Mockito.when(employeeRepository.save(Mockito.any(EmployeeEntity.class))).thenReturn(savedEmployee);
+
+        // when
+        EmployeeDto response = employeeService.createEmployee(employeeDto);
+
+        // then
+        assertNotNull(response);
+        assertEquals(ID_EMPLOYEE, response.getId());
+        assertEquals(FIRST_NAME_EMPLOYEE, response.getFirstName());
+        assertEquals(LAST_NAME_EMPLOYEE, response.getLastName());
+        assertEquals(ROLE_EMPLOYEE, response.getRole());
+        assertEquals(ID_TEAM, response.getTeamId());
+    }
+
+    @DisplayName("Unit test for createEmployee method - fail case")
+    @Test
+    void givenInvalidTeamId_whenCreateEmployee_thenResourceNotFoundException() {
+        // given
+        Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+
+        // when
+        try {
+            EmployeeDto response = employeeService.createEmployee(employeeDto);
+        } catch (Exception ex) {
+            // then
+            assertEquals(ResourceNotFoundException.class, ex.getClass());
+            assertEquals("Team not found with id : 1", ex.getMessage());
+        }
     }
 }
