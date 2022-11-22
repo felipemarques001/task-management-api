@@ -199,4 +199,36 @@ public class EmployeeServiceImplTest {
             assertEquals("Employee not found with id : 1", ex.getMessage());
         }
     }
+
+    @DisplayName("Unit test for deleteEmployeeById - success case")
+    @Test
+    void whenValidId_whenDeleteEmployeeById_thenDeleteWithSuccess() {
+        // given
+        Mockito.when(employeeRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(savedEmployee));
+        Mockito.doNothing().when(employeeRepository).deleteById(Mockito.anyInt());
+
+        // when
+        String response = employeeService.deleteEmployeeById(ID_EMPLOYEE);
+
+        // then
+        assertNotNull(response);
+        assertEquals("Employee successfully deleted!", response);
+        Mockito.verify(employeeRepository, Mockito.times(1)).deleteById(Mockito.anyInt());
+    }
+
+    @DisplayName("Unit test for deleteEmployeeById - fail case")
+    @Test
+    void whenInvalidId_whenDeleteEmployeeById_thenThrowsResourceNotFoundException() {
+        // given
+        Mockito.when(employeeRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+
+        // when
+        try {
+            String response = employeeService.deleteEmployeeById(ID_EMPLOYEE);
+        } catch (Exception ex) {
+            // then
+            assertEquals(ResourceNotFoundException.class, ex.getClass());
+            assertEquals("Employee not found with id : 1", ex.getMessage());
+        }
+    }
 }
