@@ -7,7 +7,6 @@ import com.felipe.taskmanagementeapi.entities.EmployeeEntity;
 import com.felipe.taskmanagementeapi.entities.TeamEntity;
 import com.felipe.taskmanagementeapi.exceptions.ResourceNotFoundException;
 import com.felipe.taskmanagementeapi.services.impl.EmployeeServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -153,5 +152,51 @@ public class EmployeeServiceImplTest {
         assertEquals(FIRST_NAME_EMPLOYEE, response.get(0).getFirstName());
         assertEquals(LAST_NAME_EMPLOYEE, response.get(0).getLastName());
         assertEquals(ROLE_EMPLOYEE, response.get(0).getRole());
+    }
+
+    @DisplayName("Unit test for updateEmployee method - case success")
+    @Test
+    void givenNewEmployeeDto_whenUpdateEmployee_thenReturnUpdatedEmployee() {
+        // given
+        String newFirstName = "newFirstNameTest";
+        String newLastName = "newLastNameTest";
+        String newRole = "roleTest";
+
+        EmployeeDto updatedEmployeeDto = new EmployeeDto();
+        updatedEmployeeDto.setFirstName(newFirstName);
+        updatedEmployeeDto.setLastName(newLastName);
+        updatedEmployeeDto.setRole(newRole);
+        updatedEmployeeDto.setTeamId(ID_TEAM);
+
+        Mockito.when(employeeRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(savedEmployee));
+        Mockito.when(employeeRepository.save(Mockito.any(EmployeeEntity.class))).thenReturn(savedEmployee);
+
+        // when
+        EmployeeDto response = employeeService.updateEmployee(updatedEmployeeDto, ID_EMPLOYEE);
+
+        // then
+        assertNotNull(response);
+        assertEquals(ID_EMPLOYEE, response.getId());
+        assertEquals(newFirstName, response.getFirstName());
+        assertEquals(newLastName, response.getLastName());
+        assertEquals(newRole, response.getRole());
+    }
+
+    @DisplayName("Unit test for updateEmployee method - fail case")
+    @Test
+    void givenInvalidId_whenUpdateEmployee_thenThrowsResourceNotFoundException() {
+        // given
+        Mockito.when(employeeRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+        // I will let newEmployeeDto without values in its attributes, because I won't use them
+        EmployeeDto updatedEmployeeDto = new EmployeeDto();
+
+        // when
+        try {
+            EmployeeDto response = employeeService.updateEmployee(updatedEmployeeDto, ID_EMPLOYEE);
+        } catch (Exception ex) {
+            // then
+            assertEquals(ResourceNotFoundException.class, ex.getClass());
+            assertEquals("Employee not found with id : 1", ex.getMessage());
+        }
     }
 }
