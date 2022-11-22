@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -134,5 +135,23 @@ public class EmployeeServiceImplTest {
             assertEquals(ResourceNotFoundException.class, ex.getClass());
             assertEquals("Employee not found with id : 1", ex.getMessage());
         }
+    }
+
+    @DisplayName("Unit test for findAllEmployees method")
+    @Test
+    void givenEmployeeEntityList_whenFindAllEmployees_thenReturnEmployeeDtoList() {
+        // given
+        Mockito.when(employeeRepository.findAll()).thenReturn(List.of(savedEmployee));
+
+        // when
+        List<EmployeeDto> response = employeeService.findAllEmployees();
+
+        // then
+        assertNotNull(response);
+        assertNotNull(response.get(0));
+        assertEquals(ID_EMPLOYEE, response.get(0).getId());
+        assertEquals(FIRST_NAME_EMPLOYEE, response.get(0).getFirstName());
+        assertEquals(LAST_NAME_EMPLOYEE, response.get(0).getLastName());
+        assertEquals(ROLE_EMPLOYEE, response.get(0).getRole());
     }
 }
