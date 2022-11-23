@@ -46,10 +46,10 @@ class EmployeeControllerTest {
         savedEmployee.setRole(ROLE_EMPLOYEE);
 
         requestEmployeeDto = new EmployeeDto();
-        savedEmployee.setFirstName(FIRST_NAME_EMPLOYEE);
-        savedEmployee.setLastName(LAST_NAME_EMPLOYEE);
-        savedEmployee.setRole(ROLE_EMPLOYEE);
-        savedEmployee.setTeamId(ID_TEAM);
+        requestEmployeeDto.setFirstName(FIRST_NAME_EMPLOYEE);
+        requestEmployeeDto.setLastName(LAST_NAME_EMPLOYEE);
+        requestEmployeeDto.setRole(ROLE_EMPLOYEE);
+        requestEmployeeDto.setTeamId(ID_TEAM);
     }
 
     @DisplayName("Unit test for createEmployee method")
