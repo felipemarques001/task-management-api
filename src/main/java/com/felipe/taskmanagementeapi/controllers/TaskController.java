@@ -20,7 +20,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<TaskDto> createTask(@RequestBody @Valid TaskDto taskDto) {
         TaskDto savedTaskDto = taskService.createTask(taskDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(taskDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTaskDto);
     }
 
     @GetMapping(value = "/{id}")
@@ -38,7 +38,7 @@ public class TaskController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<TaskDto> updateTask(@RequestBody @Valid TaskDto taskDto, @PathVariable Integer id) {
         TaskDto updatedTaskDto = taskService.updateTask(taskDto, id);
-        return ResponseEntity.status(HttpStatus.OK).body(taskDto);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedTaskDto);
     }
 
     @DeleteMapping(value = "/{id}")
