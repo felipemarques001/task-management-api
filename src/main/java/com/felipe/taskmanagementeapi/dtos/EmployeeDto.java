@@ -25,8 +25,7 @@ public class EmployeeDto {
     @NotBlank(message = "Role cannot be empty!")
     private String role;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotNull(message = "Inform the team id in which this employee is working")
+    @NotNull(message = "Inform the team id in which this employee is working!")
     private Integer teamId;
 
     public EmployeeDto(EmployeeEntity employeeEntity) {
@@ -34,5 +33,6 @@ public class EmployeeDto {
         firstName = employeeEntity.getFirstName();
         lastName = employeeEntity.getLastName();
         role = employeeEntity.getRole();
+        teamId = employeeEntity.getTeam().getId();
     }
 }

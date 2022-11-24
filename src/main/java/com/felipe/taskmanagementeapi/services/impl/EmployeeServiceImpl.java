@@ -47,6 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         EmployeeDto savedEmployeeDto = new EmployeeDto();
         BeanUtils.copyProperties(savedEmployee.get(), savedEmployeeDto);
+        savedEmployeeDto.setTeamId(savedEmployee.get().getTeam().getId());
         return savedEmployeeDto;
     }
 
