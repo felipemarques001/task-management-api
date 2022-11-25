@@ -1,6 +1,7 @@
 package com.felipe.taskmanagementeapi.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.felipe.taskmanagementeapi.Repositories.EmployeeRepository;
 import com.felipe.taskmanagementeapi.Repositories.TaskRepository;
 import com.felipe.taskmanagementeapi.Repositories.TeamRepository;
 import com.felipe.taskmanagementeapi.dtos.TaskDto;
@@ -40,7 +41,7 @@ public class TaskControllerITest {
     private static final String TASK_NOT_FOUND_ERROR_MESSAGE = "Task not found with id : " + INVALID_ID;
     private static final String ERROR_DETAILS_URL = "uri=/task";
     private static final String FINALIZATION_DATE_ERROR_MESSAGE = "Finalization date cannot be empty!";
-    private static final String TEAM_ID_ERROR_MESSAGE = "Inform the team id in which this employee is working";
+    private static final String TEAM_ID_ERROR_MESSAGE = "Inform the id of the team in which this task was joined";
     private static final String DESCRIPTION_ERROR_MESSAGE = "Description cannot be empty!";
     private static final String TITLE_ERROR_MESSAGE = "Title cannot be empty!";
 
@@ -51,6 +52,9 @@ public class TaskControllerITest {
     private TeamRepository teamRepository;
 
     @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -58,6 +62,7 @@ public class TaskControllerITest {
 
     @BeforeEach
     void setUp() {
+        employeeRepository.deleteAll();
         taskRepository.deleteAll();
         teamRepository.deleteAll();
     }
@@ -293,7 +298,7 @@ public class TaskControllerITest {
 
     @DisplayName("Integration test for updateTask method - fail case - invalid taskDto")
     @Test
-    void givenInvalidTaskDto_whenUpdateEmployee_thenReturnBadRequestAndErrorDetails() throws Exception {
+    void givenInvalidTaskDto_whenUpdateTask_thenReturnBadRequestAndErrorDetails() throws Exception {
         // given
         TeamEntity teamEntity = new TeamEntity();
         teamEntity.setName(TEAM_NAME);

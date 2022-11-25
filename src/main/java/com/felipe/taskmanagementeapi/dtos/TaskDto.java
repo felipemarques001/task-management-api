@@ -28,7 +28,7 @@ public class TaskDto {
     @NotBlank(message = "Description cannot be empty!")
     private String description;
 
-    @NotNull(message = "Inform the team id in which this employee is working")
+    @NotNull(message = "Inform the id of the team in which this task was joined")
     private Integer teamId;
 
     private Boolean done;

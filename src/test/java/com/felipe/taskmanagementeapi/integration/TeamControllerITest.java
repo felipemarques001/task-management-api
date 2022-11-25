@@ -1,6 +1,8 @@
 package com.felipe.taskmanagementeapi.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.felipe.taskmanagementeapi.Repositories.EmployeeRepository;
+import com.felipe.taskmanagementeapi.Repositories.TaskRepository;
 import com.felipe.taskmanagementeapi.Repositories.TeamRepository;
 import com.felipe.taskmanagementeapi.dtos.TeamDto;
 import com.felipe.taskmanagementeapi.entities.TeamEntity;
@@ -36,10 +38,18 @@ public class TeamControllerITest {
     private TeamRepository teamRepository;
 
     @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
+        employeeRepository.deleteAll();
+        taskRepository.deleteAll();
         teamRepository.deleteAll();
     }
 
