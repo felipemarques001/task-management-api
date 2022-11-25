@@ -22,8 +22,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc
 public class TeamControllerITest {
 
-    private static final String NAME_TEAM = "nameTest";
-    private static final String NEW_NAME_TEAM = "newNameTest";
+    private static final String TEAM_NAME = "nameTest";
+    private static final String TEAM_NEW_NAME = "newNameTest";
     private static final String NAME_ERROR_MESSAGE = "Name cannot be empty!";
     private static final Integer INVALID_ID = 1;
     private static final String ID_ERROR_MESSAGE = "Team not found with id : " + INVALID_ID;
@@ -48,7 +48,7 @@ public class TeamControllerITest {
     void givenTeamDto_whenCreateTeam_thenReturnSavedTeam() throws Exception {
         // given
         TeamDto teamDto = new TeamDto();
-        teamDto.setName(NAME_TEAM);
+        teamDto.setName(TEAM_NAME);
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.post("/team")
@@ -59,7 +59,7 @@ public class TeamControllerITest {
         response.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers
-                        .jsonPath("$.name", CoreMatchers.is(NAME_TEAM)));
+                        .jsonPath("$.name", CoreMatchers.is(TEAM_NAME)));
     }
 
     @DisplayName("Integration test for createTeam method - fail case")
@@ -85,7 +85,7 @@ public class TeamControllerITest {
     void givenValidId_whenFindTeamById_thenReturnSavedTeam() throws Exception {
         // given
         TeamEntity teamEntity = new TeamEntity();
-        teamEntity.setName(NAME_TEAM);
+        teamEntity.setName(TEAM_NAME);
         teamRepository.save(teamEntity);
 
         // when
@@ -96,7 +96,7 @@ public class TeamControllerITest {
         response.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
-                        .json("{'id': " + teamEntity.getId() + ",name:'" + NAME_TEAM + "',tasks:[], employees:[]}"));
+                        .json("{'id': " + teamEntity.getId() + ",name:'" + TEAM_NAME + "',tasks:[], employees:[]}"));
     }
 
     @DisplayName("Integration test for findTeamById method - fail case")
@@ -121,7 +121,7 @@ public class TeamControllerITest {
     void givenSavedTeam_whenFindAllTeams_thenReturnTeamDtoList() throws Exception {
         // given
         TeamEntity teamEntity = new TeamEntity();
-        teamEntity.setName(NAME_TEAM);
+        teamEntity.setName(TEAM_NAME);
         teamRepository.save(teamEntity);
 
         // when
@@ -132,7 +132,7 @@ public class TeamControllerITest {
         response.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
-                        .json("[{'id': " + teamEntity.getId() + ",name:'" + NAME_TEAM + "',tasks:[], employees:[]}]"));
+                        .json("[{'id': " + teamEntity.getId() + ",name:'" + TEAM_NAME + "',tasks:[], employees:[]}]"));
     }
 
     @DisplayName("Integration test for updateNameTeam method - success case")
@@ -140,11 +140,11 @@ public class TeamControllerITest {
     void givenNewName_whenUpdateNameTeam_thenReturnUpdatedTeam() throws Exception {
         // given
         TeamEntity teamEntity = new TeamEntity();
-        teamEntity.setName(NAME_TEAM);
+        teamEntity.setName(TEAM_NAME);
         teamRepository.save(teamEntity);
 
         TeamDto teamDto = new TeamDto();
-        teamDto.setName(NEW_NAME_TEAM);
+        teamDto.setName(TEAM_NEW_NAME);
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
@@ -156,7 +156,7 @@ public class TeamControllerITest {
         response.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
-                        .json("{'id': " + teamEntity.getId() + ",name:'" + NEW_NAME_TEAM + "',tasks:[], employees:[]}"));
+                        .json("{'id': " + teamEntity.getId() + ",name:'" + TEAM_NEW_NAME + "',tasks:[], employees:[]}"));
     }
 
     @DisplayName("Integration test for updateNameTeam method - fail case - invalid name")
@@ -164,7 +164,7 @@ public class TeamControllerITest {
     void givenInvalidName_whenUpdateNameTeam_thenReturnBadRequestAndErrorDetails() throws Exception {
         // given
         TeamEntity teamEntity = new TeamEntity();
-        teamEntity.setName(NAME_TEAM);
+        teamEntity.setName(TEAM_NAME);
         teamRepository.save(teamEntity);
 
         TeamDto teamDto = new TeamDto();
@@ -187,7 +187,7 @@ public class TeamControllerITest {
     void givenInvalidId_whenUpdateNameTeam_thenReturnResourceNotFoundAndErrorDetails() throws Exception {
         // given
         TeamDto teamDto = new TeamDto();
-        teamDto.setName(NEW_NAME_TEAM);
+        teamDto.setName(TEAM_NEW_NAME);
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
@@ -207,7 +207,7 @@ public class TeamControllerITest {
     void givenValidId_whenDeleteTeamById_thenReturnOkAndSuccessString() throws Exception {
         // given
         TeamEntity teamEntity = new TeamEntity();
-        teamEntity.setName(NAME_TEAM);
+        teamEntity.setName(TEAM_NAME);
         teamRepository.save(teamEntity);
 
         // when
