@@ -54,6 +54,7 @@ public class EmployeeControllerITest {
     @BeforeEach
     void setUp() {
         employeeRepository.deleteAll();
+        teamRepository.deleteAll();
     }
 
     @DisplayName("Integration test for createEmployee method - success case")

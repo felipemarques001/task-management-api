@@ -48,6 +48,7 @@ public class TaskServiceImpl implements TaskService {
         }
         TaskDto taskDto = new TaskDto();
         BeanUtils.copyProperties(savedTaskOptional.get(), taskDto);
+        taskDto.setTeamId(savedTaskOptional.get().getTeam().getId());
         return taskDto;
     }
 

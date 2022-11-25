@@ -28,7 +28,6 @@ public class TaskDto {
     @NotBlank(message = "Description cannot be empty!")
     private String description;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "Inform the team id in which this employee is working")
     private Integer teamId;
 
@@ -41,5 +40,6 @@ public class TaskDto {
         title = taskEntity.getTitle();
         description = taskEntity.getDescription();
         done = taskEntity.getDone();
+        teamId = taskEntity.getTeam().getId();
     }
 }
