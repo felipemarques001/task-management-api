@@ -62,20 +62,25 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDto updateTask(TaskDto taskDto, Integer id) {
         Optional<TaskEntity> savedTaskOptional = taskRepository.findById(id);
-        if(savedTaskOptional.isEmpty()) {
+        Optional<TeamEntity> savedTeamOptional = teamRepository.findById(taskDto.getTeamId());
+
+        if(savedTaskOptional.isEmpty())
             throw new ResourceNotFoundException("Task", "id", id);
-        }
+        if(savedTeamOptional.isEmpty())
+            throw new ResourceNotFoundException("Team", "id", taskDto.getTeamId());
+
         TaskEntity savedTask = savedTaskOptional.get();
         savedTask.setTitle(taskDto.getTitle());
         savedTask.setDescription(taskDto.getDescription());
         savedTask.setFinalizationDate(taskDto.getFinalizationDate());
-        if(taskDto.getDone() == null) {
-            savedTask.setDone(false);
-        } else {
-            savedTask.setDone(taskDto.getDone());
-        }
-        taskRepository.save(savedTask);
+        savedTask.setTeam(savedTeamOptional.get());
 
+        if(taskDto.getDone() == null)
+            savedTask.setDone(false);
+        else
+            savedTask.setDone(taskDto.getDone());
+
+        taskRepository.save(savedTask);
         BeanUtils.copyProperties(savedTask, taskDto);
         return taskDto;
     }

@@ -61,12 +61,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto updateEmployee(EmployeeDto employeeDto, Integer id) {
         Optional<EmployeeEntity> savedEmployee = employeeRepository.findById(id);
-        if(savedEmployee.isEmpty()) {
+        Optional<TeamEntity> savedTeam = teamRepository.findById(employeeDto.getTeamId());
+
+        if(savedEmployee.isEmpty())
             throw new ResourceNotFoundException("Employee", "id", id);
-        }
+        if(savedTeam.isEmpty())
+            throw new ResourceNotFoundException("Team", "id", id);
+
         savedEmployee.get().setFirstName(employeeDto.getFirstName());
         savedEmployee.get().setLastName(employeeDto.getLastName());
         savedEmployee.get().setRole(employeeDto.getRole());
+        savedEmployee.get().setTeam(savedTeam.get());
 
         employeeRepository.save(savedEmployee.get());
         BeanUtils.copyProperties(savedEmployee.get(), employeeDto);
