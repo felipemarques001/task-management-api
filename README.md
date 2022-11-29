@@ -22,6 +22,9 @@ Here are the technologies used in this project.
 * Validation
 * Lombok
 * Swagger
+* JUnit
+* Mockito
+* MockMvc
 
 
 # Métodos disponívies da api
