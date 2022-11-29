@@ -66,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(savedEmployee.isEmpty())
             throw new ResourceNotFoundException("Employee", "id", id);
         if(savedTeam.isEmpty())
-            throw new ResourceNotFoundException("Team", "id", id);
+            throw new ResourceNotFoundException("Team", "id", employeeDto.getTeamId());
 
         savedEmployee.get().setFirstName(employeeDto.getFirstName());
         savedEmployee.get().setLastName(employeeDto.getLastName());
