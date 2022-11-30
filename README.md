@@ -85,6 +85,8 @@ If the team was not found with the informed ID, you will receive the following r
 If the name is not informed, you will receive the following response with the 400 status: <br />
 ![UPDATE - not found response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Team/post_or_update_team_bad_request.png)
 
+If the team was not found with the informed ID, you will receive the following response with 404 status: <br />
+![UPDATE - not found response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Team/update/update_team_not_found.png)
 
 ### 1.5 - DELETE Team By ID:
 
@@ -132,7 +134,7 @@ If the Team whose ID provided was not found, you will receive the following resp
 #### 2.2.2 - Response: The response has the 200 status, below there is an example it:
 ![GET by id - response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Task/get/get_task_by_id_response.png)
 
-If the team was not found with the provided ID, you will receive the following response with 404 status: <br />
+If the task was not found with the provided ID, you will receive the following response with 404 status: <br />
 ![GET by id - not found response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Task/get/get_task_by_id_task_not_found.png)
 
 
