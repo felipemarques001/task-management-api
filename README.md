@@ -74,7 +74,7 @@ If the team was not found with the informed ID, you will receive the following r
 #### 1.4.1 - Request URL:
 ![UPDATE - request URL](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Team/update/update_team_url.png)
 
-**The number inside URL refers to the Team ID that you want to get.**
+**The number inside URL refers to the Team ID that you want to update.**
 
 #### 1.4.2 - Request body: The body request is of JSON type, below there is an example it:
 ![UPDATE - request body](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Team/update/update_team_body.png)
@@ -93,7 +93,7 @@ If the team was not found with the informed ID, you will receive the following r
 #### 1.5.1 - Request URL:
 ![DELETE - request URL](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Team/delete/delete_team_url.png)
 
-**The number inside URL refers to the Team ID that you want to get.**
+**The number inside URL refers to the Team ID that you want to delete.**
 
 #### 1.5.2 - Response: The response has the 200 status, below there is an example it:
 ![DELETE - response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Team/delete/delete_team_response.png)
@@ -117,7 +117,7 @@ If the team was not found with the informed ID, you will receive the following r
 #### 2.1.3 - Response: The response has the 201 status, below there is an example it:
 ![POST - response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Task/create/create_task_response.png)
 
-For each data not informed, you will have a message in the response informing this lack, this response is of type 400, below there is an example of the same:
+For each data not informed, you will have a message in the response informing this lack, this response is of type 400, below there is an example of the same: <br />
 ![POST - bad request response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Task/create/create_task_bad_request.png)
 
 If the Team whose ID provided was not found, you will receive the following response with the 400 status: <br />
@@ -152,7 +152,7 @@ If the task was not found with the provided ID, you will receive the following r
 #### 2.4.1 - Request URL:
 ![UPDATE - request URL](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Task/update/update_task_url.png)
 
-**The number inside URL refers to the Task ID that you want to get.**
+**The number inside URL refers to the Task ID that you want to update.**
 
 #### 2.4.2 - Request body: The body request is of JSON type, below there is an example it:
 ![UPDATE - request body](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Task/update/update_task_body.png)
@@ -160,21 +160,21 @@ If the task was not found with the provided ID, you will receive the following r
 #### 2.4.3 - Response: The response has the 200 status, below there is an example it:
 ![UPDATE - response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Task/update/update_task_response.png)
 
-For each data not informed, you will have a message in the response informing this lack, this response is of type 400, below there is an example of the same:
+For each data not informed, you will have a message in the response informing this lack, this response is of type 400, below there is an example of the same: <br />
 ![UPDATE - bad request response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Task/update/update_task_bad_request.png)
 
 If the task was not found with the provided ID, you will receive the following response with 404 status: <br />
 ![UPDATE - task not found response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Task/update/update_task_task_not_found.png)
 
 If the team was not found with the provided ID, you will receive the following response with 404 status: <br />
-# FALTA COLOCAR A IMAGEM DO TIME NÃO ENCONTRADO
+![UPDATE - team not found response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Task/update/update_task_team_not_found.png)
 
 ### 2.5 - DELETE Task By ID:
 
 #### 2.5.1 - Request URL:
 ![DELETE - request URL](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Task/delete/delete_task_url.png)
 
-**The number inside URL refers to the Task ID that you want to get.**
+**The number inside URL refers to the Task ID that you want to delete.**
 
 #### 2.5.2 - Response: The response has the 200 status, below there is an example it:
 ![DELETE - response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Task/delete/delete_task_response.png)
@@ -198,7 +198,7 @@ If the task was not found with the provided ID, you will receive the following r
 #### 3.1.3 - Response: The response has the 201 status, below there is an example it:
 ![POST - response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Employee/create/create_employee_response.png)
 
-For each data not provided, you will have a message in the response informing this lack, this response is of type 400, below there is an example of the same:
+For each data not provided, you will have a message in the response informing this lack, this response is of type 400, below there is an example of the same: <br />
 ![POST - bad request response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Employee/create/create_employee_bad_request.png)
 
 If the Team whose ID provided was not found, you will receive the following response with the 400 status: <br />
@@ -231,24 +231,24 @@ If the employee was not found with the informed ID, you will receive the followi
 ### 3.4 - UPDATE Employee:
 
 #### 3.4.1 - Request URL:
-![UPDATE - request URL]()
+![UPDATE - request URL](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Employee/update/update_employee_url.png)
 
-**The number inside URL refers to the Employee ID that you want to get.**
+**The number inside URL refers to the Employee ID that you want to update.**
 
 #### 3.4.2 - Request body: The body request is of JSON type, below there is an example it:
-![UPDATE - request body]()
+![UPDATE - request body](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Employee/update/update_employee_body.png)
 
 #### 3.4.2 - Response: The response has the 200 status, below there is an example it:
-![UPDATE - response]()
+![UPDATE - response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Employee/update/update_employee_response.png)
 
-For each data not provided, you will have a message in the response informing this lack, this response is of type 400, below there is an example of the same:
-![UPDATE - bad request response]()
+For each data not provided, you will have a message in the response informing this lack, this response is of type 400, below there is an example of the same: <br />
+![UPDATE - bad request response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Employee/update/update_employee_bad_request_response.png)
 
 If the employee was not found with the informed ID, you will receive the following response with 404 status: <br />
-![UPDATE - employee not found response]()
+![UPDATE - employee not found response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Employee/update/update_employee_not_found_response.png)
 
 If the team was not found with the provided ID, you will receive the following response with 404 status: <br />
-# FALTA COLOCAR A IMAGEM DO TIME NÃO ENCONTRADO
+![UPDATE - team not found response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Employee/update/update_employee_team_not_found_response.png)
 
 
 ### 3.5 - DELETE a Employee By ID:
@@ -256,7 +256,7 @@ If the team was not found with the provided ID, you will receive the following r
 #### 3.5.1 - Request URL:
 ![DELETE - request URL](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Employee/delete/delete_employee_url.png)
 
-**The number inside URL refers to the Employee ID that you want to get.**
+**The number inside URL refers to the Employee ID that you want to delete.**
 
 #### 3.4.2 - Response: The response has the 200 status, below there is an example it:
 ![DELETE - response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Employee/delete/delete_employee_response.png)
