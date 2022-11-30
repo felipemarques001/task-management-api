@@ -251,7 +251,7 @@ If the team was not found with the provided ID, you will receive the following r
 ![UPDATE - team not found response](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Employee/update/update_employee_team_not_found_response.png)
 
 
-### 3.5 - DELETE a Employee By ID:
+### 3.5 - DELETE an Employee By ID:
 
 #### 3.5.1 - Request URL:
 ![DELETE - request URL](https://github.com/felipemarques001/task-management-api/blob/main/ReadmeImages/Employee/delete/delete_employee_url.png)
@@ -288,5 +288,5 @@ The main aims of the application are:
 
   * **Antônio Felipe Rocha Ferreira Marques** 
 
-  Please follow github and join us!
+  Please follow GitHub and join us!
   Thanks to visiting me and good coding!
