@@ -1,5 +1,5 @@
-## Task Management API
-This is an API made by me that manages tasks and people management in teams.
+## Task-People Management API
+This is an API made by me that manages tasks and people in teams.
 
 
 ## Technology
